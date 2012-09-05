@@ -23,6 +23,7 @@ import java.util.Iterator;
  * @author Stephen Colebourne
  * @author Nathan Sweet
  */
+@SuppressWarnings({ "rawtypes", "unchecked", "unused" })
 public class CachingFastMapIntValue<K> implements Iterable<CachingFastMapIntValue.Entry<K>> {
 	public static final int NOT_PRESENT_VALUE = Integer.MIN_VALUE;
 	Entry[] table;

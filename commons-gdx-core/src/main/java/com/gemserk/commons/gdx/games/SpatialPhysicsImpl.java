@@ -8,6 +8,7 @@ public class SpatialPhysicsImpl implements Spatial {
 	
 	private Body body;
 	private float w, h;
+	private boolean spriteUpdateEnabled;
 	
 	public void setBody(Body body) {
 		this.body = body;
@@ -85,4 +86,13 @@ public class SpatialPhysicsImpl implements Spatial {
 		return body.getPosition();
 	}
 
+	@Override
+	public void enableSpriteUpdate(boolean enable) {
+		this.spriteUpdateEnabled = enable;
+	}
+
+	@Override
+	public boolean spriteUpdateEnabled() {
+		return spriteUpdateEnabled;
+	}
 }

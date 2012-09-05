@@ -50,6 +50,7 @@ public class EfficientPolygonTriangulator implements Triangulator {
 		return triangles.get(tri * 3 + i).y;
 	}
 
+	@SuppressWarnings("unused")
 	private static boolean process(Array<Vector2> contour, Array<Vector2> result) {
 		/* allocate and initialize list of Vertices in polygon */
 

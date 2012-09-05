@@ -3,9 +3,10 @@ package com.gemserk.componentsengine.utils;
 public class Container {
 
 	private float current;
-
 	private float total;
-
+	private float old;
+	private float original;
+	
 	public void setCurrent(float current) {
 		if (current > total)
 			current = total;
@@ -39,14 +40,25 @@ public class Container {
 		return current / total;
 	}
 
+	public float getOld() {
+		return old;
+	}
+
+	public void updateOld() {
+		old = current;
+	}
+
 	public Container() {
-		current = total = 0;
+		current = total = original = 0;
 	}
 
 	public Container(float current, float total) {
 		super();
 		this.current = current;
 		this.total = total;
+		this.original = current;
+		
+		this.old = -1;
 	}
 	
 	public Container(float total) {
@@ -56,6 +68,12 @@ public class Container {
 	public Container(Container container) {
 		this.current = container.getCurrent();
 		this.total = container.getTotal();
+		this.old = container.getOld();
+		this.original = container.getOriginal();
+	}
+
+	private float getOriginal() {
+		return original;
 	}
 	
 	public boolean isFull() {
@@ -86,6 +104,10 @@ public class Container {
 		setCurrent(current + value);
 	}
 
+	public void reset() {
+		setCurrent(original);
+	}
+	
 	@Override
 	public String toString() {
 		return "[" + getCurrent() + "/" + getTotal() + "]";

@@ -10,6 +10,8 @@ public class SpatialImpl implements Spatial {
 
 	private Vector2 position = new Vector2();
 
+	private boolean spriteUpdateEnabled;
+
 	@Override
 	public float getX() {
 		return position.x;
@@ -79,4 +81,13 @@ public class SpatialImpl implements Spatial {
 		return position;
 	}
 
+	@Override
+	public void enableSpriteUpdate(boolean enable) {
+		this.spriteUpdateEnabled = enable;
+	}
+
+	@Override
+	public boolean spriteUpdateEnabled() {
+		return spriteUpdateEnabled;
+	}
 }

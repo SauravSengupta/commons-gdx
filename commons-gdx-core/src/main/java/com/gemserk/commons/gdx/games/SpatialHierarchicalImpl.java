@@ -27,6 +27,8 @@ public class SpatialHierarchicalImpl implements Spatial {
 		return parent;
 	}
 
+	private boolean spriteUpdateEnabled;
+
 	public SpatialHierarchicalImpl(Spatial parent, float width, float height) {
 		this(parent, width, height, 0f, 0f, 0f);
 	}
@@ -120,6 +122,16 @@ public class SpatialHierarchicalImpl implements Spatial {
 		setPosition(spatial.getX(), spatial.getY());
 		setAngle(spatial.getAngle());
 		setSize(spatial.getWidth(), spatial.getHeight());
+	}
+
+	@Override
+	public void enableSpriteUpdate(boolean enable) {
+		this.spriteUpdateEnabled = enable;
+	}
+
+	@Override
+	public boolean spriteUpdateEnabled() {
+		return spriteUpdateEnabled;
 	}
 
 }

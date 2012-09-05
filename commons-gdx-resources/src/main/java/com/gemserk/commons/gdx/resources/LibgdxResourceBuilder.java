@@ -2,10 +2,11 @@ package com.gemserk.commons.gdx.resources;
 
 import java.util.ArrayList;
 
-import org.w3c.dom.Document;
+//import org.w3c.dom.Document;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -13,6 +14,7 @@ import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasSprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.TextureAtlasData;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.TextureAtlasData.Page;
@@ -27,7 +29,7 @@ import com.gemserk.commons.gdx.resources.dataloaders.DisposableDataLoader;
 import com.gemserk.commons.gdx.resources.dataloaders.MusicDataLoader;
 import com.gemserk.commons.gdx.resources.dataloaders.SoundDataLoader;
 import com.gemserk.commons.gdx.resources.dataloaders.TextureDataLoader;
-import com.gemserk.commons.svg.inkscape.DocumentParser;
+//import com.gemserk.commons.svg.inkscape.DocumentParser;
 import com.gemserk.commons.values.FloatValue;
 import com.gemserk.resources.Resource;
 import com.gemserk.resources.ResourceManager;
@@ -65,6 +67,26 @@ public class LibgdxResourceBuilder {
 
 	public void texture(String id, FileHandle fileHandle, boolean linearFilter) {
 		resourceManager.add(id, new TextureDataLoader(fileHandle, linearFilter));
+	}
+
+	public void texture(String id, String file, TextureFilter minFilter, 
+			TextureFilter magFilter) {
+		texture(id, internal(file), minFilter, magFilter);
+	}
+
+	public void texture(String id, FileHandle fileHandle, TextureFilter minFilter,
+			TextureFilter magFilter) {
+		resourceManager.add(id, new TextureDataLoader(fileHandle, minFilter, magFilter));
+	}
+
+	public void texture(String id, String file, TextureFilter minFilter, 
+			TextureFilter magFilter, Format format) {
+		texture(id, internal(file), minFilter, magFilter, format);
+	}
+
+	public void texture(String id, FileHandle fileHandle, TextureFilter minFilter,
+			TextureFilter magFilter, Format format) {
+		resourceManager.add(id, new TextureDataLoader(fileHandle, minFilter, magFilter, format));
 	}
 
 	/**
@@ -182,19 +204,44 @@ public class LibgdxResourceBuilder {
 		});
 	}
 
-	public void animation(final String id, final String textureAtlasId, final String prefix, final boolean loop, final int time, final int... times) {
+	public void atlasRegion(final String id, final String textureAtlasId, final String regionId) {
+		resourceManager.addVolatile(id, new DataLoader<AtlasRegion>() {
+			@Override
+			public AtlasRegion load() {
+				TextureAtlas textureAtlas = resourceManager.getResourceValue(textureAtlasId);
+				return textureAtlas.findRegion(regionId);
+			}
+		});
+	}
+
+	public void atlasRegions(final String id, final String textureAtlasId, final String regionId) {
+		resourceManager.addVolatile(id, new DataLoader<Array<AtlasRegion>>() {
+			@Override
+			public Array<AtlasRegion> load() {
+				TextureAtlas textureAtlas = resourceManager.getResourceValue(textureAtlasId);
+				return textureAtlas.findRegions(regionId);
+			}
+		});
+	}
+
+	public void animation(final String id, final String textureAtlasId, final String prefix, 
+			final boolean loop, final int time, final int... times) {
 		animation(id, textureAtlasId, prefix, -1, -1, loop, time, times);
 	}
 
-	public void animation(final String id, final String textureAtlasId, final String prefix, final boolean loop, boolean removeAlias, final int time, final int... times) {
+	public void animation(final String id, final String textureAtlasId, final String prefix, 
+			final boolean loop, boolean removeAlias, final int time, final int... times) {
 		animation(id, textureAtlasId, prefix, -1, -1, loop, removeAlias, time, times);
 	}
 
-	public void animation(final String id, final String textureAtlasId, final String prefix, final int sf, final int ef, final boolean loop, final int time, final int... times) {
+	public void animation(final String id, final String textureAtlasId, final String prefix, 
+			final int sf, final int ef, final boolean loop, final int time, final int... times) {
 		animation(id, textureAtlasId, prefix, sf, ef, loop, true, time, times);
 	}
 
-	public void animation(final String id, final String textureAtlasId, final String prefix, final int sf, final int ef, final boolean loop, final boolean removeAlias, final int time, final int... times) {
+	public void animation(final String id, final String textureAtlasId, final String prefix, 
+			final int sf, final int ef, final boolean loop, final boolean removeAlias, 
+			final int time, final int... times) {
 		float ftime = 0.001f * (float) time;
 		float[] ftimes = null;
 		// if (times != null) {
@@ -206,7 +253,9 @@ public class LibgdxResourceBuilder {
 		animation(id, textureAtlasId, prefix, sf, ef, loop, removeAlias, ftime, ftimes);
 	}
 
-	public void animation(final String id, final String textureAtlasId, final String prefix, final int sf, final int ef, final boolean loop, final boolean removeAlias, final float time, final float... times) {
+	public void animation(final String id, final String textureAtlasId, final String prefix, 
+			final int sf, final int ef, final boolean loop, final boolean removeAlias, 
+			final float time, final float... times) {
 		resourceManager.addVolatile(id, new DataLoader<Animation>() {
 
 			class DuplicatedSpritesRemover {
@@ -343,7 +392,74 @@ public class LibgdxResourceBuilder {
 		});
 	}
 
-	public void animation(String id, final String spriteSheetId, final int x, final int y, final int w, final int h, final int framesCount, //
+	/*
+	 * This allows reusing sprites in an atlas, by building up the animation with
+	 * specified indices
+	 */
+	public void animation(final String id, final String textureAtlasId, final String prefix, final boolean loop, final int [] indices, final int time, final int... times) {
+		resourceManager.addVolatile(id, new DataLoader<Animation>() {
+
+			Array<Sprite> sprites = null;
+
+			@Override
+			public Animation load() {
+				TextureAtlas textureAtlas = resourceManager.getResourceValue(textureAtlasId);
+
+				if (sprites == null) {
+					try {
+						sprites = textureAtlas.createSprites(prefix);
+					} catch (GdxRuntimeException e) {
+						throw new RuntimeException("Failed to create animation " + id + " from texture atlas " + textureAtlasId, e);
+					}
+				}
+				
+				if (sprites.size == 0) { 
+					throw new IllegalArgumentException("Failed to create animation " + id + ", no regions found for prefix " + prefix);
+				}
+
+				int endFrame = sprites.size - 1;
+				int startFrame = 0;
+
+				Sprite[] frames = new Sprite[endFrame - startFrame + 1];
+				
+				if (endFrame >= sprites.size) { 
+					throw new IllegalArgumentException("Failed to create animation " + id + ", end frame " + endFrame + " couldn't be greater than sprites quantity " + sprites.size);
+				}
+
+				for (int i = 0; i < frames.length; i++) {
+					Sprite sprite = sprites.get(indices[i]);
+					if (sprite instanceof AtlasSprite)
+						frames[i] = new AtlasSprite(((AtlasSprite) sprite).getAtlasRegion());
+					else
+						frames[i] = new Sprite(sprite);
+				}
+
+				int framesCount = frames.length;
+
+				float[] newTimes = new float[framesCount - 1];
+				int lastTime = time;
+
+				// added convert from int time in milliseconds to float time in seconds
+
+				for (int i = 0; i < framesCount - 1; i++) {
+					if (i < times.length) {
+						newTimes[i] = ((float) times[i]) * 0.001f;
+						lastTime = times[i];
+					} else
+						newTimes[i] = ((float) lastTime) * 0.001f;
+				}
+
+				FrameAnimationImpl frameAnimation = new FrameAnimationImpl(0.001f * (float) time, newTimes);
+				frameAnimation.setLoop(loop);
+
+				return new Animation(frames, frameAnimation);
+			}
+
+		});
+	}
+	
+	public void animation(String id, final String spriteSheetId, final int x, final int y, 
+			final int w, final int h, final int framesCount, //
 			final boolean loop, final int time, final int... times) {
 		resourceManager.addVolatile(id, new DataLoader<Animation>() {
 
@@ -404,6 +520,22 @@ public class LibgdxResourceBuilder {
 		});
 	}
 
+	public void font(String id, final String imageFile, final String fontFile,
+			final TextureFilter minFilter, final TextureFilter magFilter) {
+		resourceManager.add(id, new DisposableDataLoader<BitmapFont>(internal(imageFile)) {
+			@Override
+			public BitmapFont load() {
+				boolean useMipMaps = false;
+				if (minFilter.isMipMap() || magFilter.isMipMap())
+					useMipMaps = true;
+				
+				Texture texture = new Texture(internal(imageFile), useMipMaps);
+				texture.setFilter(minFilter, magFilter);
+				return new BitmapFont(internal(fontFile), new Sprite(texture), false);
+			}
+		});
+	}
+
 	public void sound(String id, String file) {
 		sound(id, internal(file));
 	}
@@ -428,6 +560,7 @@ public class LibgdxResourceBuilder {
 		resourceManager.add(id, new MusicDataLoader(fileHandle));
 	}
 
+	/*
 	public void xmlDocument(String id, final String file) {
 		resourceManager.add(id, new DataLoader<Document>() {
 			@Override
@@ -436,6 +569,7 @@ public class LibgdxResourceBuilder {
 			}
 		});
 	}
+	*/
 
 	public void particleEffect(String id, final String effectFile, final String imagesDir) {
 		resourceManager.add(id, new DataLoader<ParticleEffect>() {
@@ -528,6 +662,7 @@ public class LibgdxResourceBuilder {
 		return new AnimationFromTextureAtlasResourceBuilder(resourceManager, textureAtlasId);
 	}
 
+	/*
 	public XmlDocumentResourceBuilder xmlDocument(String file) {
 		return xmlDocument(internal(file));
 	}
@@ -539,6 +674,7 @@ public class LibgdxResourceBuilder {
 	public XmlSchemaResourceBuilder xmlSchema() {
 		return new XmlSchemaResourceBuilder();
 	}
+	*/
 
 	public FontResourceBuilder font2(String imageFile, String fontFile) {
 		return new FontResourceBuilder(resourceManager).imageFile(internal(imageFile)).fontFile(internal(fontFile));

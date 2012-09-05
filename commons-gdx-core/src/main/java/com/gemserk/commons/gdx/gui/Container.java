@@ -72,6 +72,7 @@ public class Container extends ControlImpl {
 		controls.clear();
 	}
 
+	@SuppressWarnings("unchecked")
 	public <T extends Control> T findControl(String id) {
 		for (int i = 0; i < controls.size(); i++) {
 			Control control = controls.get(i);

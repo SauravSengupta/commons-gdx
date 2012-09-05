@@ -16,6 +16,7 @@ public class GpuMemUtils {
 		public int gpuMemSize;
 	}
 
+	@SuppressWarnings("unchecked")
 	public static GpuMemInfo getTextureGpuSize(){
 		try {
 			Field managedTexturesField = Texture.class.getDeclaredField("managedTextures");

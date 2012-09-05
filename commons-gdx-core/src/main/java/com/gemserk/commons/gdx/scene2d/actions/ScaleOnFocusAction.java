@@ -8,6 +8,7 @@ import com.gemserk.commons.gdx.scene2d.ActionAdapter;
 import com.gemserk.commons.gdx.scene2d.ActorDecorator;
 import com.gemserk.commons.gdx.scene2d.ActorFocusListener;
 
+@SuppressWarnings("deprecation")
 public class ScaleOnFocusAction extends ActionAdapter {
 
 	float width, height;

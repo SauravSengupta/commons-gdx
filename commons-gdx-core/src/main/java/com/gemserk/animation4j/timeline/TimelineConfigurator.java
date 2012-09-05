@@ -122,6 +122,7 @@ public class TimelineConfigurator {
 		setObjectForTimelineValue(objectId + OPACITY_SUFFIX, object);
 	}
 
+	@SuppressWarnings("unchecked")
 	private void setObjectForTimelineValue(String propertyId, Object object) {
 		TimelineValue timelineValue = timelineValues.get(propertyId);
 		if (timelineValue != null)

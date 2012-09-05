@@ -24,6 +24,8 @@ public class TransitionBuilder {
 	TransitionHandler enterTransitionHandler = new TransitionHandler();
 
 	private boolean transitioning = false;
+	private int width;
+	private int height;
 
 	public TransitionBuilder leaveTime(float leaveTime) {
 		this.leaveTime = leaveTime;
@@ -41,6 +43,16 @@ public class TransitionBuilder {
 
 	public TransitionBuilder enterTime(int enterTime) {
 		return enterTime((float) enterTime * 0.001f);
+	}
+
+	public TransitionBuilder width(int width) {
+		this.width = width;
+		return this;
+	}
+
+	public TransitionBuilder height(int height) {
+		this.height = height;
+		return this;
 	}
 
 	public TransitionBuilder disposeCurrent() {
@@ -84,6 +96,10 @@ public class TransitionBuilder {
 		this.leaveTransitionHandler = new TransitionHandler();
 		this.leaveTime = 0.25f;
 		this.enterTime = 0.25f;
+		
+		// Default to screen dimensions
+		this.width = Gdx.graphics.getWidth();
+		this.height = Gdx.graphics.getHeight();
 	}
 
 	public void start() {
@@ -112,7 +128,7 @@ public class TransitionBuilder {
 							screen.dispose();
 					}
 					
-				}), //
+				}, width, height), //
 				new FadeInTransition(screen, enterTime, new TransitionHandler() {
 					
 					@Override
@@ -131,7 +147,7 @@ public class TransitionBuilder {
 						transitioning = false;
 					};
 					
-				}))) {
+				}, width, height))) {
 			@Override
 			public void resume() {
 				super.resume();

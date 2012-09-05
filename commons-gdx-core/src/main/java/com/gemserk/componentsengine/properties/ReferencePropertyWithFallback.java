@@ -27,6 +27,7 @@ public class ReferencePropertyWithFallback<T extends Object> implements Property
 		return (T) getProperty().get();
 	}
 
+	@SuppressWarnings("unchecked")
 	private Property<T> getProperty() {
 		if(cachedProperty==null){
 			cachedProperty = (Property<T>) holder.getProperty(referencedPropertyName);

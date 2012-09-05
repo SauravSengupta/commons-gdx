@@ -80,6 +80,11 @@ public class FixtureDefBuilder {
 		return this;
 	}
 
+	public FixtureDefBuilder groupIndex(short groupIndex) {
+		fixtureDef.filter.groupIndex = groupIndex;
+		return this;
+	}
+
 	private void reset() {
 		fixtureDef = new FixtureDef();
 	}

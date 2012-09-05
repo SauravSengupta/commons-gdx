@@ -35,4 +35,13 @@ public interface Spatial {
 	
 	void set(Spatial spatial);
 
+	/**
+	 * Flag to tell the sprite update system to ignore this spatial. This is
+	 * needed because removing the spatial component in the middle of an 
+	 * update or render pass causes Artemis to crash
+	 * @param enable
+	 */
+	void enableSpriteUpdate(boolean enable);
+
+	boolean spriteUpdateEnabled();
 }

@@ -9,6 +9,8 @@ public class SpatialHierarchicalImpl2 implements Spatial {
 
 	private final Vector2 position = new Vector2();
 
+	private boolean spriteUpdateEnabled;
+
 	/**
 	 * Creates a new hierarchical spatial with two Spatial assuming the second Spatial is already in local coordinates of the first Spatial, see SpatialUtils for more information.
 	 * 
@@ -75,6 +77,16 @@ public class SpatialHierarchicalImpl2 implements Spatial {
 		setPosition(spatial.getX(), spatial.getY());
 		setAngle(spatial.getAngle());
 		setSize(spatial.getWidth(), spatial.getHeight());
+	}
+
+	@Override
+	public void enableSpriteUpdate(boolean enable) {
+		this.spriteUpdateEnabled = enable;
+	}
+
+	@Override
+	public boolean spriteUpdateEnabled() {
+		return spriteUpdateEnabled;
 	}
 
 }

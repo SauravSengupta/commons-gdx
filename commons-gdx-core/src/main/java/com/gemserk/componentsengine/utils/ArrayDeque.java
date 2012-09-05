@@ -67,6 +67,7 @@ import java.util.Stack;
  * @since   1.6
  * @param <E> the type of elements held in this collection
  */
+@SuppressWarnings("unchecked")
 public class ArrayDeque<E> extends AbstractCollection<E>
                            implements Queue<E>, Cloneable, Serializable
 {
@@ -798,7 +799,7 @@ public class ArrayDeque<E> extends AbstractCollection<E>
      *
      * @return a copy of this deque
      */
-    public ArrayDeque<E> clone() {
+	public ArrayDeque<E> clone() {
         try {
             ArrayDeque<E> result = (ArrayDeque<E>) super.clone();
             result.elements = Arrays.copyOf(elements, elements.length);

@@ -64,6 +64,10 @@ public class SpriteComponent extends Component {
 		return color;
 	}
 
+	public void setColor(Color color) {
+		this.color = color;
+	}
+
 	public SpriteComponent(Sprite sprite, Vector2 center, Color color) {
 		this(sprite, center.x, center.y, color);
 	}
