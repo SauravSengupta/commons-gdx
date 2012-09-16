@@ -1,10 +1,13 @@
 package com.gemserk.commons.artemis.systems;
 
 import com.artemis.Entity;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.collision.BoundingBox;
 import com.gemserk.commons.artemis.components.Components;
 import com.gemserk.commons.artemis.components.FrustumCullingComponent;
 import com.gemserk.commons.artemis.components.ParticleEmitterComponent;
@@ -12,7 +15,6 @@ import com.gemserk.commons.artemis.components.RenderableComponent;
 import com.gemserk.commons.artemis.components.SpatialComponent;
 import com.gemserk.commons.artemis.components.SpriteComponent;
 import com.gemserk.commons.artemis.components.TextComponent;
-import com.gemserk.commons.gdx.camera.Libgdx2dCamera;
 import com.gemserk.commons.gdx.games.Spatial;
 import com.gemserk.commons.gdx.graphics.SpriteBatchUtils;
 import com.gemserk.componentsengine.utils.RandomAccessMap;
@@ -28,19 +30,21 @@ public class RenderLayerSpriteBatchImpl implements RenderLayer {
 		public ParticleEmitterComponent particleEmitterComponent;
 	}
 
-	private final SpriteBatch spriteBatch;
+	protected final SpriteBatch spriteBatch;
 	// private final OrderedByLayerEntities orderedByLayerEntities;
-	private final OrderedByLayerRenderables orderedByLayerRenderables;
-	private final Libgdx2dCamera camera;
+	protected final OrderedByLayerRenderables orderedByLayerRenderables;
+	protected final Camera camera;
 	private boolean enabled;
 
-	private final Rectangle frustum = new Rectangle();
 	private final Rectangle entityBounds = new Rectangle();
+	private final Vector3 nearCorner = new Vector3();
+	private final Vector3 farCorner = new Vector3();
+	private final BoundingBox boundingBox = new BoundingBox(); 
 	private Factory factory;
 
 	private boolean ownsSpriteBatch;
 
-	public RenderLayerSpriteBatchImpl(int minLayer, int maxLayer, Libgdx2dCamera camera, SpriteBatch spriteBatch) {
+	public RenderLayerSpriteBatchImpl(int minLayer, int maxLayer, Camera camera, SpriteBatch spriteBatch) {
 		this.camera = camera;
 		this.spriteBatch = spriteBatch;
 		// this.orderedByLayerEntities = new OrderedByLayerEntities(minLayer, maxLayer);
@@ -50,7 +54,7 @@ public class RenderLayerSpriteBatchImpl implements RenderLayer {
 		this.ownsSpriteBatch = false;
 	}
 
-	public RenderLayerSpriteBatchImpl(int minLayer, int maxLayer, Libgdx2dCamera camera) {
+	public RenderLayerSpriteBatchImpl(int minLayer, int maxLayer, Camera camera) {
 		this(minLayer, maxLayer, camera, new SpriteBatch());
 		this.ownsSpriteBatch = true;
 	}
@@ -85,8 +89,7 @@ public class RenderLayerSpriteBatchImpl implements RenderLayer {
 
 	@Override
 	public void render() {
-		camera.getFrustum(frustum);
-		camera.apply(spriteBatch);
+		spriteBatch.setProjectionMatrix(camera.combined);
 
 		RandomAccessMap<Entity, EntityComponents> entityComponents = factory.entityComponents;
 
@@ -112,7 +115,11 @@ public class RenderLayerSpriteBatchImpl implements RenderLayer {
 				entityBounds.setX(entityBounds.getX() + spatial.getX());
 				entityBounds.setY(entityBounds.getY() + spatial.getY());
 
-				if (!frustum.overlaps(entityBounds))
+				nearCorner.set(entityBounds.x, entityBounds.y, camera.near);
+				farCorner.set(entityBounds.x, entityBounds.y, camera.far);
+
+				boundingBox.set(nearCorner, farCorner);
+				if (!camera.frustum.boundsInFrustum(boundingBox))
 					continue;
 			}
 

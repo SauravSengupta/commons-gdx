@@ -2,11 +2,12 @@ package com.gemserk.commons.artemis.systems;
 
 import com.artemis.Entity;
 import com.artemis.EntitySystem;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.Disposable;
 import com.gemserk.commons.artemis.components.OwnerComponent;
 import com.gemserk.commons.artemis.components.RenderableComponent;
 import com.gemserk.commons.artemis.render.RenderLayers;
-import com.gemserk.commons.gdx.camera.Libgdx2dCameraTransformImpl;
 
 public class RenderableSystem extends EntitySystem implements Disposable {
 
@@ -42,7 +43,8 @@ public class RenderableSystem extends EntitySystem implements Disposable {
 		super(RenderableComponent.class);
 		// default layers
 		renderLayers = new RenderLayers();
-		renderLayers.add("default", new RenderLayerSpriteBatchImpl(-1000, 1000, new Libgdx2dCameraTransformImpl()));
+		renderLayers.add("default", new RenderLayerSpriteBatchImpl(-1000, 1000, 
+				new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight())));
 	}
 
 	@SuppressWarnings("unchecked")
