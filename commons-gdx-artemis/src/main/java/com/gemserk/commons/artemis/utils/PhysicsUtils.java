@@ -40,8 +40,9 @@ public class PhysicsUtils {
 			
 			// removes the contact from the other entity.
 
-			PhysicsComponent otherPhyiscsComponent = Components.getPhysicsComponent(otherEntity);
-			otherPhyiscsComponent.getContact().removeContact(otherFixture, myFixture);
+			PhysicsComponent otherPhysicsComponent = Components.getPhysicsComponent(otherEntity);
+			if (otherPhysicsComponent != null)
+				otherPhysicsComponent.getContact().removeContact(otherFixture, myFixture);
 		}
 		
 		for (int i = 0; i < contactsToRemove.size; i++) {
