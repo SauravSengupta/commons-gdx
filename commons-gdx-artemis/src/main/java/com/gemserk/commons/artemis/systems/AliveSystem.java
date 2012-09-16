@@ -56,7 +56,7 @@ public class AliveSystem extends EntitySystem {
 				Entity e = allTheEntityComponents.getKey(entityIndex);
 				StoreComponent storeComponent = StoreComponent.get(e);
 				if (storeComponent != null)
-					storeComponent.store.free(e);
+					storeComponent.getStore().free(e);
 				else
 					e.delete();
 			}

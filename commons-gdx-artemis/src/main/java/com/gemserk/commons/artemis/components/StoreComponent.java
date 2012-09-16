@@ -9,18 +9,17 @@ public class StoreComponent extends Component {
 
 	public static final int type = ComponentTypeManager.getTypeFor(StoreComponent.class).getId();
 
+	private EntityStore store;
+
 	public static StoreComponent get(Entity e) {
 		return (StoreComponent) e.getComponent(type);
-	}
-
-	public EntityStore store;
-
-	public StoreComponent() {
-		this(null);
 	}
 
 	public StoreComponent(EntityStore store) {
 		this.store = store;
 	}
 	
+	public EntityStore getStore() {
+		return store;
+	}
 }

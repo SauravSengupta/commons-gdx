@@ -22,7 +22,7 @@ public class ContainerSystem extends EntitySystem {
 
 			StoreComponent storeComponent = StoreComponent.get(child);
 			if (storeComponent != null)
-				storeComponent.store.free(child);
+				storeComponent.getStore().free(child);
 			else
 				child.delete();
 		}
