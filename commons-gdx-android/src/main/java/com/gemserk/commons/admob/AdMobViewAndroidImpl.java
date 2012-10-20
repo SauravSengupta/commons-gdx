@@ -1,15 +1,16 @@
 package com.gemserk.commons.admob;
 
+import android.os.Handler;
 import android.os.Message;
 
 public class AdMobViewAndroidImpl implements AdMobView {
 
 	// protected static final Logger logger = LoggerFactory.getLogger(AdMobViewAndroidImpl.class);
 
-	private AdMobHandler adMobHandler;
+	private Handler adMobHandler;
 	private boolean enabled;
 
-	public AdMobViewAndroidImpl(AdMobHandler adMobHandler) {
+	public AdMobViewAndroidImpl(Handler adMobHandler) {
 		this.adMobHandler = adMobHandler;
 		this.enabled = true;
 	}
@@ -26,7 +27,7 @@ public class AdMobViewAndroidImpl implements AdMobView {
 		clearEnqueuedMessages();
 		// if (logger.isInfoEnabled())
 		// logger.info("Sending show ads message to handler");
-		sendMessage(AdMobHandler.SHOW_ADS, adsParameters);
+		sendMessage(AdViewHandler.SHOW_ADS, adsParameters);
 	}
 
 	@Override
@@ -41,7 +42,7 @@ public class AdMobViewAndroidImpl implements AdMobView {
 		clearEnqueuedMessages();
 		// if (logger.isInfoEnabled())
 		// logger.info("Sending hide ads message to handler");
-		sendMessage(AdMobHandler.HIDE_ADS, adsParameters);
+		sendMessage(AdViewHandler.HIDE_ADS, adsParameters);
 	}
 
 	private void sendMessage(int what, AdsParameters adsParameters) {
@@ -72,8 +73,8 @@ public class AdMobViewAndroidImpl implements AdMobView {
 		// if (logger.isDebugEnabled())
 		// logger.debug("removing enqueued messages");
 		// System.out.println("clearing enqueued messages");
-		adMobHandler.removeMessages(AdMobHandler.SHOW_ADS);
-		adMobHandler.removeMessages(AdMobHandler.HIDE_ADS);
+		adMobHandler.removeMessages(AdViewHandler.SHOW_ADS);
+		adMobHandler.removeMessages(AdViewHandler.HIDE_ADS);
 	}
 
 	@Override

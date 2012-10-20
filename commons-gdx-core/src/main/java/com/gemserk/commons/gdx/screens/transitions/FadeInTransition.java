@@ -60,7 +60,7 @@ public class FadeInTransition extends GameTransitions.EnterTransition {
 	@Override
 	public void init() {
 		super.init();
-//		colorTransition = Transitions.transitionBuilder(startColor).end(endColor).time(time).build();
+		// colorTransition = Transitions.transitionBuilder(startColor).end(endColor).time(time).build();
 		colorTransition = Transitions.transition(startColor).endObject(time, endColor).build();
 		Color color = colorTransition.get();
 
