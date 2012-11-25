@@ -22,4 +22,8 @@ public class StoreComponent extends Component {
 	public EntityStore getStore() {
 		return store;
 	}
+
+	public void setStore(EntityStore store) {
+		this.store = store;
+	}
 }

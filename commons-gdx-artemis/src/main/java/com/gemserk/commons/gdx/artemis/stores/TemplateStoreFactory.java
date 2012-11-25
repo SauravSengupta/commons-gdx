@@ -53,7 +53,7 @@ public class TemplateStoreFactory implements StoreFactory<Entity> {
 		StoreComponent storeComponent = StoreComponent.get(entity);
 		if (storeComponent == null)
 			storeComponent = new StoreComponent(null);
-		storeComponent.store = entityStore;
+		storeComponent.setStore(entityStore);
 		entity.addComponent(storeComponent);
 		return entity;
 	}

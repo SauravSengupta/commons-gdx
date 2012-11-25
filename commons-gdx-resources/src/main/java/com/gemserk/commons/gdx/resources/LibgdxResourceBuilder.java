@@ -362,12 +362,12 @@ public class LibgdxResourceBuilder {
 					}
 
 					if (removeAlias) {
-						int framesBeforeRemoval = frames.length;
+						//int framesBeforeRemoval = frames.length;
 						DuplicatedSpritesRemover duplicatedSpritesRemover = new DuplicatedSpritesRemover();
 						duplicatedSpritesRemover.removeDuplicates(frames, newTimes);
 						frames = duplicatedSpritesRemover.frames;
 						newTimes = duplicatedSpritesRemover.times;
-						Gdx.app.log("commons-gdx", "[" + id + "] frames removed: " + (framesBeforeRemoval - frames.length));
+						//Gdx.app.log("commons-gdx", "[" + id + "] frames removed: " + (framesBeforeRemoval - frames.length));
 					}
 
 					cachedFrameAnimation = new FrameAnimationImpl(newTimes);
