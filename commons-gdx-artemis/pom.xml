@@ -4,9 +4,11 @@
 	<parent>
 		<groupId>com.gemserk.commons.gdx</groupId>
 		<artifactId>commons-gdx</artifactId>
-		<version>0.0.11-SNAPSHOT</version>
+		<version>0.0.4</version>
 	</parent>
+	<groupId>com.gemserk.commons.gdx</groupId>
 	<artifactId>commons-gdx-artemis</artifactId>
+	<version>0.0.4</version>
 	<packaging>jar</packaging>
 	<name>Common Gdx - Artemis module</name>
 	<description>Common Artemis utitilites to be used with libgdx</description>
@@ -21,19 +23,19 @@
 			<groupId>com.gemserk.commons.gdx</groupId>
 			<artifactId>commons-gdx-core</artifactId>
 			<version>${project.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>resourcesmanager-core</artifactId>
+					<groupId>com.gemserk.resources</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
+			<version>4.8.2</version>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-			<version>0.9.28</version>
-			<scope>test</scope>
-		</dependency>
-		
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>

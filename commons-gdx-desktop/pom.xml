@@ -4,21 +4,20 @@
 	<parent>
 		<groupId>com.gemserk.commons.gdx</groupId>
 		<artifactId>commons-gdx</artifactId>
-		<version>0.0.11-SNAPSHOT</version>
+		<version>0.0.4</version>
 	</parent>
+	<groupId>com.gemserk.commons.gdx</groupId>
 	<artifactId>commons-gdx-desktop</artifactId>
+	<version>0.0.4</version>
 	<packaging>jar</packaging>
 	<name>Common Gdx - Core - Desktop module</name>
 	<description>Common Gdx - Core - Desktop platform implementations</description>
-	
-	<properties>
-		<sl4j.version>1.6.1</sl4j.version>
-	</properties>
 
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
+			<version>4.8.2</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -40,22 +39,6 @@
 			<groupId>com.gemserk.commons.gdx</groupId>
 			<artifactId>commons-gdx-core</artifactId>
 			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-			<version>0.9.28</version>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>${sl4j.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.badlogic.gdx</groupId>
-			<artifactId>gdx-backend-lwjgl</artifactId>
-			<version>${gdx.version}</version>
-			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 
