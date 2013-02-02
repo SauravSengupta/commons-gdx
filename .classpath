@@ -4,9 +4,9 @@
 	<classpathentry excluding="com/gemserk/commons/reflection/InjectorImpl.java|com/gemserk/commons/svg/inkscape/|com/gemserk/commons/svg/processors/|com/gemserk/commons/vecmath/|com/gemserk/commons/versions/RemoteVersionProviderTextPlainFileImpl.java" kind="src" path="commons-gdx-core/src/main/java"/>
 	<classpathentry excluding="com/gemserk/commons/gdx/resources/XmlDocumentResourceBuilder.java" kind="src" path="commons-gdx-resources/src/main/java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/Android/Libraries/libgdx/libgdx-0.9.8/gdx.jar" sourcepath="C:/Android/Libraries/libgdx/libgdx-0.9.8/sources/gdx-sources.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/artemis"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/animation4j"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/jresourcesmanager"/>
+	<classpathentry exported="true" kind="lib" path="C:/Android/Libraries/libgdx/libgdx-0.9.8/gdx.jar" sourcepath="C:/Android/Libraries/libgdx/libgdx-0.9.8/sources/gdx-sources.jar"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/artemis"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/animation4j"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/jresourcesmanager"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

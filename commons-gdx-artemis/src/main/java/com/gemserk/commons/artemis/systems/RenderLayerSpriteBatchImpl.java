@@ -15,11 +15,8 @@ import com.gemserk.commons.artemis.components.RenderableComponent;
 import com.gemserk.commons.artemis.components.SpatialComponent;
 import com.gemserk.commons.artemis.components.SpriteComponent;
 import com.gemserk.commons.artemis.components.TextComponent;
-<<<<<<< HEAD
-=======
 import com.gemserk.commons.artemis.render.Renderable;
 import com.gemserk.commons.gdx.camera.Libgdx2dCamera;
->>>>>>> upstream/master
 import com.gemserk.commons.gdx.games.Spatial;
 import com.gemserk.commons.gdx.graphics.SpriteBatchUtils;
 import com.gemserk.componentsengine.utils.RandomAccessMap;
@@ -88,7 +85,7 @@ public class RenderLayerSpriteBatchImpl implements RenderLayer {
 	public void setBlending(boolean blending) {
 		this.blending = blending;
 	}
-	public RenderLayerSpriteBatchImpl(int minLayer, int maxLayer, Libgdx2dCamera camera, SpriteBatch spriteBatch, boolean blending, OptimizationParameters optimizationParameters) {
+	public RenderLayerSpriteBatchImpl(int minLayer, int maxLayer, Camera camera, SpriteBatch spriteBatch, boolean blending, OptimizationParameters optimizationParameters) {
 		this.camera = camera;
 		this.spriteBatch = spriteBatch;
 		this.optimizationParameters = optimizationParameters;
@@ -104,7 +101,7 @@ public class RenderLayerSpriteBatchImpl implements RenderLayer {
 		this(minLayer, maxLayer, camera, spriteBatch, blending, OptimizationParameters.optimizationsDisabled());
 	}
 
-	public RenderLayerSpriteBatchImpl(int minLayer, int maxLayer, Libgdx2dCamera camera, SpriteBatch spriteBatch) {
+	public RenderLayerSpriteBatchImpl(int minLayer, int maxLayer, Camera camera, SpriteBatch spriteBatch) {
 		this(minLayer, maxLayer, camera, spriteBatch, true);
 	}
 
@@ -143,10 +140,8 @@ public class RenderLayerSpriteBatchImpl implements RenderLayer {
 
 	@Override
 	public void render() {
-		camera.getFrustum(frustum);
-
 		if (optimizationParameters.updateCamera)
-			camera.apply(spriteBatch);
+			spriteBatch.setProjectionMatrix(camera.combined);
 
 		RandomAccessMap<Entity, EntityComponents> entityComponents = factory.entityComponents;
 
