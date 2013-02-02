@@ -2,8 +2,6 @@ package com.gemserk.commons.artemis.systems;
 
 import com.artemis.Entity;
 import com.artemis.EntitySystem;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.math.Vector2;
 import com.gemserk.animation4j.interpolator.FloatInterpolator;
 import com.gemserk.commons.artemis.components.Components;
 import com.gemserk.commons.artemis.components.PreviousStateSpatialComponent;
@@ -75,42 +73,20 @@ public class SpriteUpdateSystem extends EntitySystem {
 
 			Spatial spatial = spatialComponent.getSpatial();
 
-			float newX = spatial.getX();
-			float newY = spatial.getY();
+			float x = spatial.getX();
+			float y = spatial.getY();
 			float angle = spatial.getAngle();
 
 			if (previousStateSpatialComponent != null) {
 				float interpolationAlpha = timeStepProvider.getAlpha();
 				Spatial previousSpatial = previousStateSpatialComponent.getSpatial();
-				newX = FloatInterpolator.interpolate(previousSpatial.getX(), spatial.getX(), interpolationAlpha);
-				newY = FloatInterpolator.interpolate(previousSpatial.getY(), spatial.getY(), interpolationAlpha);
+				x = FloatInterpolator.interpolate(previousSpatial.getX(), spatial.getX(), interpolationAlpha);
+				y = FloatInterpolator.interpolate(previousSpatial.getY(), spatial.getY(), interpolationAlpha);
 				float angleDiff = (float) AngleUtils.minimumDifference(previousSpatial.getAngle(), spatial.getAngle());
-				// angle = FloatInterpolator.interpolate(previousSpatial.getAngle(), spatial.getAngle(), interpolationAlpha);
 				angle = FloatInterpolator.interpolate(spatial.getAngle() - angleDiff, spatial.getAngle(), interpolationAlpha);
 			}
 
-			Sprite sprite = spriteComponent.getSprite();
-			Vector2 center = spriteComponent.getCenter();
-
-			if (spriteComponent.isUpdateRotation()) {
-				if (sprite.getRotation() != angle)
-					sprite.setRotation(angle);
-			}
-
-			float ox = spatial.getWidth() * center.x;
-			float oy = spatial.getHeight() * center.y;
-
-			if (ox != sprite.getOriginX() || oy != sprite.getOriginY())
-				sprite.setOrigin(ox, oy);
-
-			if (sprite.getWidth() != spatial.getWidth() || sprite.getHeight() != spatial.getHeight())
-				sprite.setSize(spatial.getWidth(), spatial.getHeight());
-
-			float x = newX - sprite.getOriginX();
-			float y = newY - sprite.getOriginY();
-
-			if (x != sprite.getX() || y != sprite.getY())
-				sprite.setPosition(x, y);
+			spriteComponent.update(x, y, spatial.getWidth(), spatial.getHeight(), angle);
 		}
 	}
 

@@ -14,19 +14,19 @@ public class SpriteComponent extends Component {
 	public static SpriteComponent get(Entity e) {
 		return (SpriteComponent) e.getComponent(type);
 	}
-	
+
 	private Sprite sprite;
 	private Color color;
 
 	// this is the hot spot for the transformations and it is relative to the size of the sprite
 	private Vector2 center; // x and y values between 0,1
-	
+
 	private boolean updateRotation = true;
-	
+
 	public void setUpdateRotation(boolean updateRotation) {
 		this.updateRotation = updateRotation;
 	}
-	
+
 	public boolean isUpdateRotation() {
 		return updateRotation;
 	}
@@ -43,7 +43,7 @@ public class SpriteComponent extends Component {
 	public Vector2 getCenter() {
 		return center;
 	}
-	
+
 	/**
 	 * Returns the coordinate x of the original center relative to the sprite size.
 	 */
@@ -59,7 +59,7 @@ public class SpriteComponent extends Component {
 		float height = sprite.getHeight();
 		return height * 0.5f - height * center.y;
 	}
-	
+
 	public Color getColor() {
 		return color;
 	}
@@ -84,6 +84,29 @@ public class SpriteComponent extends Component {
 
 	public SpriteComponent(Sprite sprite) {
 		this(sprite, Color.WHITE);
+	}
+
+	public void update(float x, float y, float width, float height, float angle) {
+	
+		// to avoid modifying the sprite.dirty unnecessary
+		
+		if (isUpdateRotation() && sprite.getRotation() != angle)
+			sprite.setRotation(angle);
+		
+		float ox = width * center.x;
+		float oy = height * center.y;
+		
+		if (ox != sprite.getOriginX() || oy != sprite.getOriginY())
+			sprite.setOrigin(ox, oy);
+		
+		if (sprite.getWidth() != width || sprite.getHeight() != height)
+			sprite.setSize(width, height);
+		
+		float newX = x - sprite.getOriginX();
+		float newY = y - sprite.getOriginY();
+
+		if (newX != sprite.getX() || newY != sprite.getY())
+			sprite.setPosition(newX, newY);
 	}
 
 }
