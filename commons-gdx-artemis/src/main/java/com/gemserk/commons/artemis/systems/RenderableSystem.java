@@ -8,10 +8,8 @@ import com.badlogic.gdx.utils.Disposable;
 import com.gemserk.commons.artemis.components.OwnerComponent;
 import com.gemserk.commons.artemis.components.RenderableComponent;
 import com.gemserk.commons.artemis.render.RenderLayers;
-<<<<<<< HEAD
-=======
 import com.gemserk.commons.artemis.render.Renderable;
-import com.gemserk.commons.gdx.camera.Libgdx2dCameraTransformImpl;
+//import com.gemserk.commons.gdx.camera.Libgdx2dCameraTransformImpl;
 
 public class RenderableSystem extends EntitySystem implements Disposable {
 
