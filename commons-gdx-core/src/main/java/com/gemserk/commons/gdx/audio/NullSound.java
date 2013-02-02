@@ -73,4 +73,10 @@ public class NullSound implements Sound {
 		
 	}
 
+	@Override
+	public void setPriority(long soundId, int priority) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
